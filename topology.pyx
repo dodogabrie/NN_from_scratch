@@ -1,0 +1,78 @@
+# distutils: language=c++
+import numpy as np
+cimport cython
+cimport numpy as np
+from libc.stdlib cimport malloc, free
+from libc.math cimport exp
+from topology cimport neuron_t, layer_t, network_t
+
+ctypedef np.double_t DOUBLE_t
+
+# Linear activation function
+cdef double lin(double x):return x
+cdef double lin_der(double x): return 1.
+
+# Sigmoid activation function
+cdef double sigmoid(double x): return 1/(1 + exp(-x))
+cdef double sigmoid_der(double x): return 1/(1 + exp(-x))
+
+cdef neuron_t create_neuron(int num_out_weights):
+    cdef neuron_t neu # define the neuron
+    cdef np.ndarray[DOUBLE_t, ndim=1, mode='c'] rnd_num
+    cdef int i
+    # Define weights and bias ###########
+    rnd_num = np.random.rand(num_out_weights + 1) # array for rnd weights
+    neu.out_weights = <double*>malloc(num_out_weights * sizeof(double))
+    for i in range(num_out_weights):
+        neu.out_weights[i] = rnd_num[i]
+
+    neu.dw = <double*>malloc(num_out_weights * sizeof(double))
+    for i in range(num_out_weights):
+        neu.dw[i] = 0.
+    neu.bias = rnd_num[num_out_weights]
+    neu.dbias = 0.
+    #####################################
+    neu.actv = 0.
+    neu.dactv = 0.
+    neu.net = 0.
+    neu.dnet = 0.
+    return neu
+
+cdef layer_t create_layer(int num_of_neurons, f_type activation_f, f_type derivative_f):
+    cdef layer_t lay
+    lay.num_neu = num_of_neurons
+    lay.activation_f = activation_f
+    lay.derivative_f = derivative_f
+    lay.neu = <neuron_t*>malloc(num_of_neurons * sizeof(neuron_t))
+    return lay
+
+cdef network_t create_network(int[:] structure, np.ndarray activations, double eta):
+    cdef int num_of_layers = len(structure)
+    cdef int i, j
+    cdef network_t net
+    net.num_layers = num_of_layers
+    # allocate memory
+    net.lay = <layer_t*>malloc(num_of_layers * sizeof(layer_t))
+    # middle layers/neurons
+    for i in range(num_of_layers-1):
+        if activations[i] == 'sigmoid':
+            net.lay[i] = create_layer(structure[i], sigmoid, sigmoid_der)
+        elif activations[i] == 'linear':
+            net.lay[i] = create_layer(structure[i], lin, lin_der)
+        for j in range(structure[i]):
+            net.lay[i].neu[j] = create_neuron(structure[i+1])
+
+    # Outer layers/neuron
+    if activations[num_of_layers-1] == 'sigmoid':
+        net.lay[num_of_layers-1] = create_layer(structure[num_of_layers-1], sigmoid, sigmoid_der)
+    elif activations[i] == 'linear':
+        net.lay[num_of_layers-1] = create_layer(structure[num_of_layers-1], lin, lin_der)
+    for i in range(structure[num_of_layers-1]):
+        net.lay[num_of_layers-1].neu[i] = create_neuron(1)
+    return net
+
+cdef network_t feed_input(network_t network, double[:,:] inputs, int i):
+    cdef int j
+    for j in range(network.lay[0].num_neu):
+        network.lay[0].neu[j].actv = inputs[i][j]
+    return network
