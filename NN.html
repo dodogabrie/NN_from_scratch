@@ -378,17 +378,19 @@ body.cython { font-family: courier; font-size: 12; }
 <pre class="cython line score-0">&#xA0;<span class="">04</span>: <span class="k">cimport</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> <span class="c"># Make numpy work with cython</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">05</span>: <span class="k">from</span> <span class="nn">libc.stdlib</span> <span class="k">cimport</span> <span class="n">malloc</span><span class="p">,</span> <span class="n">free</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">06</span>: <span class="k">cimport</span> <span class="nn">topology</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">07</span>: <span class="k">from</span> <span class="nn">topology</span> <span class="k">cimport</span> <span class="n">network_t</span><span class="p">,</span> <span class="n">create_network</span><span class="p">,</span> <span class="n">create_neuron</span><span class="p">,</span> <span class="n">feed_input</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">08</span>: </pre>
-<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">09</span>: <span class="k">cdef</span> <span class="k">class</span> <span class="nf">network</span><span class="p">:</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">07</span>: <span class="k">cimport</span> <span class="nn">training</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">08</span>: <span class="k">from</span> <span class="nn">topology</span> <span class="k">cimport</span> <span class="n">network_t</span><span class="p">,</span> <span class="n">create_network</span><span class="p">,</span> <span class="n">create_neuron</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">09</span>: <span class="k">from</span> <span class="nn">training</span> <span class="k">cimport</span> <span class="n">feed_input</span><span class="p">,</span> <span class="n">forward_prop</span><span class="p">,</span> <span class="n">back_prop</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">10</span>: </pre>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">11</span>: <span class="k">cdef</span> <span class="k">class</span> <span class="nf">network</span><span class="p">:</span></pre>
 <pre class='cython code score-0 '>struct __pyx_obj_2NN_network {
   PyObject_HEAD
   struct __pyx_t_8topology_network_t net;
 };
 
-</pre><pre class="cython line score-0">&#xA0;<span class="">10</span>:     <span class="k">cdef</span> <span class="kt">network_t</span> <span class="nf">net</span></pre>
-<pre class="cython line score-0">&#xA0;<span class="">11</span>: </pre>
-<pre class="cython line score-44" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">12</span>:     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">int</span><span class="p">[:]</span> <span class="n">structure</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="n">activations</span><span class="p">,</span> <span class="n">double</span> <span class="n">eta</span><span class="p">):</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">12</span>:     <span class="k">cdef</span> <span class="kt">network_t</span> <span class="nf">net</span></pre>
+<pre class="cython line score-0">&#xA0;<span class="">13</span>: </pre>
+<pre class="cython line score-44" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">14</span>:     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">int</span><span class="p">[:]</span> <span class="n">structure</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="n">activations</span><span class="p">,</span> <span class="n">double</span> <span class="n">eta</span><span class="p">):</span></pre>
 <pre class='cython code score-44 '>/* Python wrapper */
 static int __pyx_pw_2NN_7network_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_2NN_7network_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -423,17 +425,17 @@ static int __pyx_pw_2NN_7network_1__init__(PyObject *__pyx_v_self, PyObject *__p
         case  1:
         if (likely((values[1] = <span class='pyx_c_api'>__Pyx_PyDict_GetItemStr</span>(__pyx_kwds, __pyx_n_s_activations)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 1, 3, 3, 1); <span class='error_goto'>__PYX_ERR(1, 12, __pyx_L3_error)</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 1, 3, 3, 1); <span class='error_goto'>__PYX_ERR(1, 14, __pyx_L3_error)</span>
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = <span class='pyx_c_api'>__Pyx_PyDict_GetItemStr</span>(__pyx_kwds, __pyx_n_s_eta)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 1, 3, 3, 2); <span class='error_goto'>__PYX_ERR(1, 12, __pyx_L3_error)</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 1, 3, 3, 2); <span class='error_goto'>__PYX_ERR(1, 14, __pyx_L3_error)</span>
         }
       }
       if (unlikely(kw_args &gt; 0)) {
-        if (unlikely(<span class='pyx_c_api'>__Pyx_ParseOptionalKeywords</span>(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") &lt; 0)) <span class='error_goto'>__PYX_ERR(1, 12, __pyx_L3_error)</span>
+        if (unlikely(<span class='pyx_c_api'>__Pyx_ParseOptionalKeywords</span>(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") &lt; 0)) <span class='error_goto'>__PYX_ERR(1, 14, __pyx_L3_error)</span>
       }
     } else if (<span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -442,19 +444,19 @@ static int __pyx_pw_2NN_7network_1__init__(PyObject *__pyx_v_self, PyObject *__p
       values[1] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 1);
       values[2] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 2);
     }
-    __pyx_v_structure = <span class='pyx_c_api'>__Pyx_PyObject_to_MemoryviewSlice_ds_int</span>(values[0], PyBUF_WRITABLE);<span class='error_goto'> if (unlikely(!__pyx_v_structure.memview)) __PYX_ERR(1, 12, __pyx_L3_error)</span>
+    __pyx_v_structure = <span class='pyx_c_api'>__Pyx_PyObject_to_MemoryviewSlice_ds_int</span>(values[0], PyBUF_WRITABLE);<span class='error_goto'> if (unlikely(!__pyx_v_structure.memview)) __PYX_ERR(1, 14, __pyx_L3_error)</span>
     __pyx_v_activations = ((PyArrayObject *)values[1]);
-    __pyx_v_eta = __pyx_<span class='py_c_api'>PyFloat_AsDouble</span>(values[2]); if (unlikely((__pyx_v_eta == (double)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(1, 12, __pyx_L3_error)</span>
+    __pyx_v_eta = __pyx_<span class='py_c_api'>PyFloat_AsDouble</span>(values[2]); if (unlikely((__pyx_v_eta == (double)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(1, 14, __pyx_L3_error)</span>
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 1, 3, 3, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(1, 12, __pyx_L3_error)</span>
+  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 1, 3, 3, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(1, 14, __pyx_L3_error)</span>
   __pyx_L3_error:;
   <span class='pyx_c_api'>__Pyx_AddTraceback</span>("NN.network.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!<span class='pyx_c_api'>__Pyx_ArgTypeTest</span>(((PyObject *)__pyx_v_activations), __pyx_ptype_5numpy_ndarray, 1, "activations", 0))) <span class='error_goto'>__PYX_ERR(1, 12, __pyx_L1_error)</span>
+  if (unlikely(!<span class='pyx_c_api'>__Pyx_ArgTypeTest</span>(((PyObject *)__pyx_v_activations), __pyx_ptype_5numpy_ndarray, 1, "activations", 0))) <span class='error_goto'>__PYX_ERR(1, 14, __pyx_L1_error)</span>
   __pyx_r = __pyx_pf_2NN_7network___init__(((struct __pyx_obj_2NN_network *)__pyx_v_self), __pyx_v_structure, __pyx_v_activations, __pyx_v_eta);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -480,11 +482,11 @@ static int __pyx_pf_2NN_7network___init__(struct __pyx_obj_2NN_network *__pyx_v_
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">13</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="n">activations</span><span class="p">,</span> <span class="n">eta</span><span class="p">)</span></pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">15</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="n">activations</span><span class="p">,</span> <span class="n">eta</span><span class="p">)</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;net = __pyx_f_8topology_create_network(__pyx_v_structure, __pyx_v_activations, __pyx_v_eta);
-</pre><pre class="cython line score-0">&#xA0;<span class="">14</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">15</span>:     <span class="nd">@property</span></pre>
-<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">16</span>:     <span class="k">def</span> <span class="nf">eta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">16</span>: </pre>
+<pre class="cython line score-0">&#xA0;<span class="">17</span>:     <span class="nd">@property</span></pre>
+<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">18</span>:     <span class="k">def</span> <span class="nf">eta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-3 '>/* Python wrapper */
 static PyObject *__pyx_pw_2NN_7network_3eta_1__get__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_2NN_7network_3eta_1__get__(PyObject *__pyx_v_self) {
@@ -513,16 +515,16 @@ static PyObject *__pyx_pf_2NN_7network_3eta___get__(struct __pyx_obj_2NN_network
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">17</span>:         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">eta</span></pre>
+</pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">19</span>:         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">eta</span></pre>
 <pre class='cython code score-6 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
-  __pyx_t_1 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;net.eta);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 17, __pyx_L1_error)</span>
+  __pyx_t_1 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;net.eta);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 19, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">18</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">19</span>:     <span class="nd">@property</span></pre>
-<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">20</span>:     <span class="k">def</span> <span class="nf">num_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">20</span>: </pre>
+<pre class="cython line score-0">&#xA0;<span class="">21</span>:     <span class="nd">@property</span></pre>
+<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">22</span>:     <span class="k">def</span> <span class="nf">num_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-3 '>/* Python wrapper */
 static PyObject *__pyx_pw_2NN_7network_10num_layers_1__get__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_2NN_7network_10num_layers_1__get__(PyObject *__pyx_v_self) {
@@ -551,15 +553,15 @@ static PyObject *__pyx_pf_2NN_7network_10num_layers___get__(struct __pyx_obj_2NN
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">21</span>:         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">num_layers</span></pre>
+</pre><pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">23</span>:         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">num_layers</span></pre>
 <pre class='cython code score-3 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
-  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyInt_From_int</span>(__pyx_v_self-&gt;net.num_layers);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 21, __pyx_L1_error)</span>
+  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyInt_From_int</span>(__pyx_v_self-&gt;net.num_layers);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 23, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">22</span>: </pre>
-<pre class="cython line score-34" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">23</span>:     <span class="k">def</span> <span class="nf">feed_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span><span class="p">[:,:]</span> <span class="n">inputs</span><span class="p">,</span> <span class="nb">int</span> <span class="n">i</span><span class="p">):</span></pre>
+</pre><pre class="cython line score-0">&#xA0;<span class="">24</span>: </pre>
+<pre class="cython line score-34" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">25</span>:     <span class="k">def</span> <span class="nf">feed_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span><span class="p">[:,:]</span> <span class="n">inputs</span><span class="p">,</span> <span class="nb">int</span> <span class="n">i</span><span class="p">):</span></pre>
 <pre class='cython code score-34 '>/* Python wrapper */
 static PyObject *__pyx_pw_2NN_7network_3feed_input(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_pw_2NN_7network_3feed_input(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -591,11 +593,11 @@ static PyObject *__pyx_pw_2NN_7network_3feed_input(PyObject *__pyx_v_self, PyObj
         case  1:
         if (likely((values[1] = <span class='pyx_c_api'>__Pyx_PyDict_GetItemStr</span>(__pyx_kwds, __pyx_n_s_i)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("feed_input", 1, 2, 2, 1); <span class='error_goto'>__PYX_ERR(1, 23, __pyx_L3_error)</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("feed_input", 1, 2, 2, 1); <span class='error_goto'>__PYX_ERR(1, 25, __pyx_L3_error)</span>
         }
       }
       if (unlikely(kw_args &gt; 0)) {
-        if (unlikely(<span class='pyx_c_api'>__Pyx_ParseOptionalKeywords</span>(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "feed_input") &lt; 0)) <span class='error_goto'>__PYX_ERR(1, 23, __pyx_L3_error)</span>
+        if (unlikely(<span class='pyx_c_api'>__Pyx_ParseOptionalKeywords</span>(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "feed_input") &lt; 0)) <span class='error_goto'>__PYX_ERR(1, 25, __pyx_L3_error)</span>
       }
     } else if (<span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -603,12 +605,12 @@ static PyObject *__pyx_pw_2NN_7network_3feed_input(PyObject *__pyx_v_self, PyObj
       values[0] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 0);
       values[1] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 1);
     }
-    __pyx_v_inputs = <span class='pyx_c_api'>__Pyx_PyObject_to_MemoryviewSlice_dsds_double</span>(values[0], PyBUF_WRITABLE);<span class='error_goto'> if (unlikely(!__pyx_v_inputs.memview)) __PYX_ERR(1, 23, __pyx_L3_error)</span>
-    __pyx_v_i = <span class='pyx_c_api'>__Pyx_PyInt_As_int</span>(values[1]); if (unlikely((__pyx_v_i == (int)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(1, 23, __pyx_L3_error)</span>
+    __pyx_v_inputs = <span class='pyx_c_api'>__Pyx_PyObject_to_MemoryviewSlice_dsds_double</span>(values[0], PyBUF_WRITABLE);<span class='error_goto'> if (unlikely(!__pyx_v_inputs.memview)) __PYX_ERR(1, 25, __pyx_L3_error)</span>
+    __pyx_v_i = <span class='pyx_c_api'>__Pyx_PyInt_As_int</span>(values[1]); if (unlikely((__pyx_v_i == (int)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(1, 25, __pyx_L3_error)</span>
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("feed_input", 1, 2, 2, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(1, 23, __pyx_L3_error)</span>
+  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("feed_input", 1, 2, 2, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>__PYX_ERR(1, 25, __pyx_L3_error)</span>
   __pyx_L3_error:;
   <span class='pyx_c_api'>__Pyx_AddTraceback</span>("NN.network.feed_input", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
@@ -636,9 +638,76 @@ static PyObject *__pyx_pf_2NN_7network_2feed_input(struct __pyx_obj_2NN_network 
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">24</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">feed_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span></pre>
-<pre class='cython code score-0 '>  __pyx_v_self-&gt;net = __pyx_f_8topology_feed_input(__pyx_v_self-&gt;net, __pyx_v_inputs, __pyx_v_i);
-</pre><pre class="cython line score-0">&#xA0;<span class="">25</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">26</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">27</span>: </pre>
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">26</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">feed_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span></pre>
+<pre class='cython code score-0 '>  __pyx_v_self-&gt;net = __pyx_f_8training_feed_input(__pyx_v_self-&gt;net, __pyx_v_inputs, __pyx_v_i);
+</pre><pre class="cython line score-0">&#xA0;<span class="">27</span>: </pre>
+<pre class="cython line score-1" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">28</span>:     <span class="k">def</span> <span class="nf">forward_prop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-1 '>/* Python wrapper */
+static PyObject *__pyx_pw_2NN_7network_5forward_prop(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_2NN_7network_5forward_prop(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("forward_prop (wrapper)", 0);
+  __pyx_r = __pyx_pf_2NN_7network_4forward_prop(((struct __pyx_obj_2NN_network *)__pyx_v_self));
+
+  /* function exit code */
+  <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_2NN_7network_4forward_prop(struct __pyx_obj_2NN_network *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("forward_prop", 0);
+/* … */
+  /* function exit code */
+  __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
+  <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
+  <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
+  return __pyx_r;
+}
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">29</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">forward_prop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">)</span></pre>
+<pre class='cython code score-0 '>  __pyx_v_self-&gt;net = __pyx_f_8training_forward_prop(__pyx_v_self-&gt;net);
+</pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">30</span>:     <span class="k">def</span> <span class="nf">back_prop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span><span class="p">[:]</span> <span class="n">labels</span><span class="p">):</span></pre>
+<pre class='cython code score-5 '>/* Python wrapper */
+static PyObject *__pyx_pw_2NN_7network_7back_prop(PyObject *__pyx_v_self, PyObject *__pyx_arg_labels); /*proto*/
+static PyObject *__pyx_pw_2NN_7network_7back_prop(PyObject *__pyx_v_self, PyObject *__pyx_arg_labels) {
+  __Pyx_memviewslice __pyx_v_labels = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_r = 0;
+  <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("back_prop (wrapper)", 0);
+  assert(__pyx_arg_labels); {
+    __pyx_v_labels = <span class='pyx_c_api'>__Pyx_PyObject_to_MemoryviewSlice_ds_double</span>(__pyx_arg_labels, PyBUF_WRITABLE);<span class='error_goto'> if (unlikely(!__pyx_v_labels.memview)) __PYX_ERR(1, 30, __pyx_L3_error)</span>
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("NN.network.back_prop", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_2NN_7network_6back_prop(((struct __pyx_obj_2NN_network *)__pyx_v_self), __pyx_v_labels);
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+
+  /* function exit code */
+  <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_2NN_7network_6back_prop(struct __pyx_obj_2NN_network *__pyx_v_self, __Pyx_memviewslice __pyx_v_labels) {
+  PyObject *__pyx_r = NULL;
+  <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("back_prop", 0);
+/* … */
+  /* function exit code */
+  __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
+  __PYX_XDEC_MEMVIEW(&amp;__pyx_v_labels, 1);
+  <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
+  <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
+  return __pyx_r;
+}
+</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">31</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">back_prop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span></pre>
+<pre class='cython code score-0 '>  __pyx_v_self-&gt;net = __pyx_f_8training_back_prop(__pyx_v_self-&gt;net, __pyx_v_labels);
+</pre><pre class="cython line score-0">&#xA0;<span class="">32</span>: </pre>
 </div></body></html>

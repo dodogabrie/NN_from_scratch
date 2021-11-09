@@ -12,13 +12,15 @@ if len(file_names) == 0:
 
 module_name = 'NN'
 
-ext_modules = [Extension('NN', ['NN.pyx'],
-                        include_dirs=[numpy.get_include(), '.'],
-                        compiler_directives={'language_level' : "3"})]
+e1 = Extension('NN', ['NN.pyx'], include_dirs=[numpy.get_include(), '.'],)
+e2 = Extension('topology', ['topology.pyx'], include_dirs=[numpy.get_include(), '.'],)
+e3 = Extension('training', ['training.pyx'],include_dirs=[numpy.get_include(), '.'],)
 
-ext_modules += [Extension('topology', ['topology.pyx'],
-                         include_dirs=[numpy.get_include(), '.'],
-                         compiler_directives={'language_level' : "3"})]
+ext_modules = [e1, e2, e3]
+
+for e in ext_modules:
+    e.cython_directives = {'language_level': "3"} #all are Python-3
+
 print(file_names)
 setup(
     name = 'NN',

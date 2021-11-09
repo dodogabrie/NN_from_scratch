@@ -51,6 +51,7 @@ cdef network_t create_network(int[:] structure, np.ndarray activations, double e
     cdef int i, j
     cdef network_t net
     net.num_layers = num_of_layers
+    net.eta = eta
     # allocate memory
     net.lay = <layer_t*>malloc(num_of_layers * sizeof(layer_t))
     # middle layers/neurons
@@ -71,8 +72,3 @@ cdef network_t create_network(int[:] structure, np.ndarray activations, double e
         net.lay[num_of_layers-1].neu[i] = create_neuron(1)
     return net
 
-cdef network_t feed_input(network_t network, double[:,:] inputs, int i):
-    cdef int j
-    for j in range(network.lay[0].num_neu):
-        network.lay[0].neu[j].actv = inputs[i][j]
-    return network

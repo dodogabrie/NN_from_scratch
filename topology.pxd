@@ -27,4 +27,3 @@ cdef struct network_t:
 cdef neuron_t create_neuron(int)
 cdef layer_t create_layer(int, f_type, f_type)
 cdef network_t create_network(int[:], np.ndarray, double)
-cdef network_t feed_input(network_t, double[:,:], int)

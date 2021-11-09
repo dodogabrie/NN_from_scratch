@@ -4,7 +4,9 @@ cimport cython
 cimport numpy as np # Make numpy work with cython
 from libc.stdlib cimport malloc, free
 cimport topology
-from topology cimport network_t, create_network, create_neuron, feed_input
+cimport training
+from topology cimport network_t, create_network, create_neuron
+from training cimport feed_input, forward_prop, back_prop
 
 cdef class network:
     cdef network_t net
@@ -23,5 +25,8 @@ cdef class network:
     def feed_input(self, double[:,:] inputs, int i):
         self.net = feed_input(self.net, inputs, i)
 
-
+    def forward_prop(self):
+        self.net = forward_prop(self.net)
+    def back_prop(self, double[:] labels):
+        self.net = back_prop(self.net, labels)
 
