@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+sys.path.append('NN/')
 import time
 import matplotlib.pyplot as plt
 import NN
