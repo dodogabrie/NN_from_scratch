@@ -6,14 +6,12 @@ help:
 	@echo "Available tasks:"
 	@echo "compile    -> Build the Cython extension module."
 	@echo "annotate   -> Create annotated HTML from the .pyx sources"
-	@echo "all        -> Call compile, annotate, clean-soft"
-	@echo "dbg        -> Call compile, annotate"
+	@echo "all        -> Call compile, clean-soft"
 	@echo "clean      -> Remove *.so *.c *.o *.html build core"
 	@echo "clean-soft -> Remove *.so *.c *.o build"
 	@echo "test       -> Run the test.py"
 
-all: compile annotate soft-clean
-dbg: compile annotate
+all: compile soft-clean
 
 compile:
 	python setup.py build_ext --inplace
