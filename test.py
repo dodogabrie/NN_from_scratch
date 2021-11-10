@@ -24,8 +24,9 @@ def test():
 #    network = NN.network(structure, activations, eta = .2, w_init = 1.)
 #    network.print_network()
 #    start = time.time()
-#    errors = network.train(inputs, labels, 5000)
+#    network.train(inputs, labels, 5000)
 #    print(f'Elapsed time for training: {time.time() - start} seconds')
+#    errors = network.get_train_error(epoch)
 #    plt.plot(errors)
 #    plt.show()
 
