@@ -27,7 +27,7 @@ def test():
 #    plt.plot(errors)
 #    plt.show()
 
-    data=np.loadtxt("ML-CUP21-TR.csv", delimiter=",")
+    data=np.loadtxt("dataset.csv", delimiter=",")
     N_val = int(len(data)/10)
 
     input_data=data[:-N_val,1:-2]
