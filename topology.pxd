@@ -21,9 +21,10 @@ cdef struct layer_t:
 cdef struct network_t:
     int num_layers
     double eta
+    double * train_errors
     layer_t * lay
 
 
-cdef neuron_t create_neuron(int)
+cdef neuron_t create_neuron(int, double)
 cdef layer_t create_layer(int, f_type, f_type)
-cdef network_t create_network(int[:], np.ndarray, double)
+cdef network_t create_network(int[:], np.ndarray, double, double)
