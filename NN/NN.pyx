@@ -9,6 +9,7 @@ from topology cimport network_t, create_network, create_neuron
 from training cimport feed_input, forward_prop, back_prop, train, predict_out
 
 ctypedef np.double_t DOUBLE_t
+ctypedef np.int_t INT_t
 
 cdef class network:
     cdef network_t net
@@ -23,6 +24,14 @@ cdef class network:
     @property
     def num_layers(self):
         return self.net.num_layers
+
+    @property
+    def neu_in_layer(self):
+        cdef int i, n_layers = self.num_layers
+        cdef np.ndarray[INT_t, ndim=1, mode='c'] neu_in_layer = np.zeros(n_layers).astype(int)
+        for i in range(n_layers):
+            neu_in_layer[i] = self.net.lay[i].num_neu
+        return neu_in_layer
 
     def print_network(self):
         for i in range(self.num_layers):
