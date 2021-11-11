@@ -92,7 +92,7 @@ cdef void back_prop(network_t network, double [:] labels):
             # Compute dw_back: delta*input = delta*out_prev
             lay_back.neu[k].dw[j] += lay.neu[j].dnet * lay_back.neu[k].actv
             # Store the value w_prev * delta for next steps
-            lay_back.neu[k].dactv = lay_back.neu[k].out_weights[j] * lay.neu[j].dnet
+            lay_back.neu[k].dactv += lay_back.neu[k].out_weights[j] * lay.neu[j].dnet
         # Compute dbias just like delta * x0_prev = delta
         lay.neu[j].dbias += lay.neu[j].dnet
     ##################
@@ -113,9 +113,10 @@ cdef void back_prop(network_t network, double [:] labels):
                 lay_back.neu[k].dw[j] += lay_back.neu[k].actv * lay.neu[j].dnet
                 if rev > 1: # if after this layer there isn't the imputs
                     # Store the value of delta * w_prev for the next step
-                    lay_back.neu[k].dactv = lay_back.neu[k].out_weights[j] * lay.neu[j].dnet
+                    lay_back.neu[k].dactv += lay_back.neu[k].out_weights[j] * lay.neu[j].dnet
             # Compute dbias just like delta * x0_prev = delta
             lay.neu[j].dbias += lay.neu[j].dnet
+            lay.neu[j].dactv = 0. # reset the sum(delta * w) to zero (for next training)
     ####################
 
 cdef void update_weights(network_t network):
