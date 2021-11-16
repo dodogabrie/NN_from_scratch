@@ -114,7 +114,7 @@ cdef void back_prop(network_t network, double [:] labels):
                 if rev > 1: # if after this layer there isn't the imputs
                     # Store the value of delta * w_prev for the next step
                     lay_back.neu[k].dactv += lay_back.neu[k].out_weights[j] * lay.neu[j].dnet
-            # Compute dbias just like delta * x0_prev = delta
+            # Compute dbias just like delta * x0_prev (= delta * 1 = delta )
             lay.neu[j].dbias += lay.neu[j].dnet
             lay.neu[j].dactv = 0. # reset the sum(delta * w) to zero (for next training)
     ####################

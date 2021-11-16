@@ -37,8 +37,20 @@ cdef class network:
         for i in range(self.num_layers):
             print('Layer', i, '-->', self.net.lay[i].num_neu, 'neu')
 
-    def train(self, double[:,:] inputs, double[:,:] labels, int epoch):
-        self.net = train(self.net, inputs, labels, epoch)
+    def train(self, inputs_raw, labels_raw, int epoch):
+        cdef network_t net = self.net # extract the net
+        cdef int num_layers = self.num_layers # Get number of layers
+        cdef int n_out = net.lay[num_layers-1].num_neu # Get neu in last lay
+        cdef int n_in = net.lay[0].num_neu # Get neu in first lay
+        # Reformatting Labels of inputs as matrix
+        labels_raw = np.array(labels_raw, dtype = np.double)
+        labels_raw = np.reshape(labels_raw, (len(labels_raw), n_out))
+        cdef np.ndarray[DOUBLE_t, ndim=2, mode='c'] labels = labels_raw
+        # Reformatting inputs as matrix
+        inputs_raw = np.array(inputs_raw, dtype = np.double)
+        inputs_raw = np.reshape(inputs_raw, (len(inputs_raw), n_in))
+        cdef np.ndarray[DOUBLE_t, ndim=2, mode='c'] inputs = inputs_raw
+        self.net = train(net, inputs, labels, epoch)
 
 
     def predict(self, double[:,:] data):

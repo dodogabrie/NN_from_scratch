@@ -15,6 +15,8 @@ module_name = 'NN'
 e1 = Extension('NN', ['NN.pyx'], include_dirs=[numpy.get_include(), '.'],)
 e2 = Extension('topology', ['topology.pyx'], include_dirs=[numpy.get_include(), '.'],)
 e3 = Extension('training', ['training.pyx'],include_dirs=[numpy.get_include(), '.'],)
+#               extra_compile_args = ["-O3", "-ffast-math", "-march=native", "-fopenmp" ],
+#               extra_link_args=['-fopenmp'])
 
 ext_modules = [e1, e2, e3]
 
