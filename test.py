@@ -15,8 +15,8 @@ def test_xor():
               [0,1],
               [1,1]]
     labels = [0, 1, 1, 0]
-    inputs = np.array(inputs, dtype = float)
-    labels = np.reshape(np.array(labels, dtype = float), (len(inputs), 1))
+    #inputs = np.array(inputs, dtype = float)
+    #labels = np.reshape(np.array(labels, dtype = float), (len(inputs), 1))
     activations = np.array(["sigmoid"]*len(structure), dtype=str)
     network = NN.network(structure, activations, eta = 2., w_init = 1.)
     network.print_network()
