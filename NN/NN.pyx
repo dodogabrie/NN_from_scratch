@@ -14,8 +14,9 @@ ctypedef np.int_t INT_t
 cdef class network:
     cdef network_t net
 
-    def __init__(self, int[:] structure, np.ndarray activations, double eta, double w_init):
-        self.net = create_network(structure, activations, eta, w_init)
+    def __init__(self, int[:] structure, np.ndarray activations, double eta,
+                 double w_init, double alpha = 0, double l = 0):
+        self.net = create_network(structure, activations, eta, w_init, alpha, l)
 
     @property
     def eta(self):
@@ -37,7 +38,7 @@ cdef class network:
         for i in range(self.num_layers):
             print('Layer', i, '-->', self.net.lay[i].num_neu, 'neu')
 
-    def train(self, inputs_raw, labels_raw, int epoch):
+    def train(self, inputs_raw, labels_raw, int epoch, val_raw = None, labels_val_raw = None, val_dataset = False):
         cdef network_t net = self.net # extract the net
         cdef int num_layers = self.num_layers # Get number of layers
         cdef int n_out = net.lay[num_layers-1].num_neu # Get neu in last lay
@@ -50,7 +51,18 @@ cdef class network:
         inputs_raw = np.array(inputs_raw, dtype = np.double)
         inputs_raw = np.reshape(inputs_raw, (len(inputs_raw), n_in))
         cdef np.ndarray[DOUBLE_t, ndim=2, mode='c'] inputs = inputs_raw
-        self.net = train(net, inputs, labels, epoch)
+
+        if val_dataset:
+            labels_val_raw = np.array(labels_val_raw, dtype = np.double)
+            labels_val_raw = np.reshape(labels_val_raw, (len(labels_val_raw), n_out))
+            val_raw = np.array(val_raw, dtype = np.double)
+            val_raw = np.reshape(val_raw, (len(val_raw), n_in))
+        else:
+            labels_val_raw = labels_raw
+            val_raw = inputs_raw
+        cdef np.ndarray[DOUBLE_t, ndim=2, mode='c'] labels_val = labels_val_raw
+        cdef np.ndarray[DOUBLE_t, ndim=2, mode='c'] val = val_raw
+        self.net = train(net, inputs, labels, val, labels_val, epoch, val_dataset)
 
 
     def predict(self, double[:,:] data):
@@ -58,9 +70,14 @@ cdef class network:
 
     @cython.boundscheck(False)  # Deactivate bounds checking
     @cython.wraparound(False)   # Deactivate negative indexing.
-    def get_train_error(self, int epoch):
+    def get_train_error(self, int epoch, int val = 0):
         cdef int i
         cdef np.ndarray[DOUBLE_t, ndim=1, mode='c'] errors = np.empty(epoch)
+        cdef np.ndarray[DOUBLE_t, ndim=1, mode='c'] val_errors = np.empty(epoch)
         for i in range(epoch):
             errors[i] = self.net.train_errors[i]
-        return errors
+            if val: val_errors[i] = self.net.val_errors[i]
+        if val:
+            return errors, val_errors
+        else:
+            return errors

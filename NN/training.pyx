@@ -21,13 +21,17 @@ cdef void feed_input(network_t network, double[:] inputs):
 @cython.boundscheck(False)  # Deactivate bounds checking
 @cython.wraparound(False)   # Deactivate negative indexing.
 @cython.cdivision(True)     # Make division fast like C
-cdef network_t train(network_t network, double[:, :] inputs, double [:,:] labels, int epoch):
-    cdef int i, j
+cdef network_t train(network_t network, double[:, :] inputs, double [:,:] labels,
+                     double[:,:] validation, double[:,:] labels_validation, int epoch, int val_data):
+    cdef int i, j, k
     cdef int n_data = len(inputs)
+    cdef int n_val_data = len(validation)
     cdef double inv_n_data = 1/<double>n_data
+    cdef double inv_n_val = 1/<double>n_val_data
     cdef double error # Temporary error for each train sample
     # Initialize array of errors
     network.train_errors = <double*>malloc(epoch*sizeof(double))
+    network.val_errors = <double*>malloc(epoch*sizeof(double))
     for i in range(epoch): # for each epoch
         for j in range(n_data): # for each data
             feed_input(network, inputs[j])
@@ -38,6 +42,13 @@ cdef network_t train(network_t network, double[:, :] inputs, double [:,:] labels
         update_weights(network)
         network.train_errors[i] = error*inv_n_data
         error = 0
+        if val_data:
+            for k in range(n_val_data):
+                feed_input(network, validation[k])
+                forward_prop(network)
+                error += compute_error(network, labels_validation[k])
+            network.val_errors[i] = error*inv_n_val
+            error = 0
     return network
 
 @cython.boundscheck(False)  # Deactivate bounds checking
@@ -128,18 +139,21 @@ cdef void update_weights(network_t network):
             for k in range(network.lay[i+1].num_neu): # for neu in the next lay
                 # update the w_k of neuron j adding eta * dw_k (repeated for
                 # each k)
-                lay.neu[j].out_weights[k] += network.eta * lay.neu[j].dw[k]
+                lay.neu[j].out_weights[k] += network.eta * lay.neu[j].dw[k] \
+                                             - 2 * network.l * lay.neu[j].out_weights[k]
                 # restore dw (for online mode)
                 lay.neu[j].dw[k] = 0.
             # update the bias like eta*dbias_j
-            lay.neu[j].bias += network.eta * lay.neu[j].dbias
+            lay.neu[j].bias += network.eta * lay.neu[j].dbias \
+                               - 2 * network.l * lay.neu[j].bias
             # restore dbias (for online mode)
             lay.neu[j].dbias = 0.
     # last layer
     lay = network.lay[network.num_layers-1]
     for j in range(lay.num_neu): # for each neuron in the last layer
         # update only the bias (out_weights are not needed)
-        lay.neu[j].bias += network.eta * lay.neu[j].dbias
+        lay.neu[j].bias += network.eta * lay.neu[j].dbias \
+                           - 2 * network.l * lay.neu[j].bias
         # restore dbias (for online mode)
         lay.neu[j].dbias = 0.
 
