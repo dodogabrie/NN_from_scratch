@@ -18,7 +18,7 @@ def test_xor():
     #inputs = np.array(inputs, dtype = float)
     #labels = np.reshape(np.array(labels, dtype = float), (len(inputs), 1))
     activations = np.array(["sigmoid"]*len(structure), dtype=str)
-    network = NN.network(structure, activations, eta = 2., w_init = 1.)
+    network = NN.network(structure, activations, eta = 2., w_init = 1., l = 0.001)
     network.print_network()
     start = time.time()
     network.train(inputs, labels, epoch)
@@ -79,9 +79,9 @@ def test_ML_cup():
     # Building
     epoch = 1000
     structure = np.array([input_data.shape[1], 4, 2], dtype = np.int32)
-    activations = np.array(['sigmoid', 'sigmoid', 'linear'])
+    activations = np.array(['linear', 'sigmoid', 'linear'])
     start = time.time()
-    network = NN.network(structure, activations, eta = .0002, w_init = .1)
+    network = NN.network(structure, activations, eta = .0002, w_init = 0.1, l = 0.001)
     print(f'Time for initialize the net: {time.time()-start} seconds')
     start = time.time()
     network.train(input_data, labels, epoch)
@@ -133,6 +133,34 @@ def ML_validation_check():
     plt.show()
     return
 
+def test_tick_reg():
+    epoch = 10000
+
+    def f(x, w=1, a = 1, noise = True):
+        return a*np.sin(w*x) + noise * np.random.rand(len(x)) * a/3
+    x = np.linspace(0, 2*np.pi, 200)
+    f_eval = f(x)
+    inputs = x[::2].reshape((len(x[::2]), 1))
+    labels = f_eval[::2].reshape((len(x[::2]), 1))
+    val = x[1::2]
+    val_label = f(val, noise = False)
+    structure = np.array([1, 20, 2, 1], dtype = np.int32)
+    activations = np.array(["sigmoid", 'sigmoid', 'sigmoid', 'linear'], dtype=str)
+    network = NN.network(structure, activations, eta = .004, w_init = 1., l = 0.0004)
+    network.print_network()
+    start = time.time()
+    network.train(inputs, labels, epoch, val, val_label, 1)
+    errors, val_errors = network.get_train_error(epoch, val = 1)
+    plt.plot(errors, c = 'blue')
+    plt.plot(val_errors, c = 'red')
+    plt.show()
+
+    val = val.reshape((len(val), 1))
+    pred = network.predict(val)
+    plt.plot(val, pred, c = 'red')
+    plt.scatter(inputs, labels, c = 'blue')
+    plt.show()
+
 
 if __name__ == '__main__':
-    test_ML_cup()
+    test_tick_reg()
