@@ -15,10 +15,8 @@ def test_xor():
               [0,1],
               [1,1]]
     labels = [0, 1, 1, 0]
-    #inputs = np.array(inputs, dtype = float)
-    #labels = np.reshape(np.array(labels, dtype = float), (len(inputs), 1))
     activations = np.array(["sigmoid"]*len(structure), dtype=str)
-    network = NN.network(structure, activations, eta = 2., w_init = 1., l = 0.001)
+    network = NN.network(structure, activations, eta = 2., w_init = 1.)
     network.print_network()
     start = time.time()
     network.train(inputs, labels, epoch)
@@ -78,8 +76,8 @@ def test_ML_cup():
 
     # Building
     epoch = 1000
-    structure = np.array([input_data.shape[1], 4, 2], dtype = np.int32)
-    activations = np.array(['linear', 'sigmoid', 'linear'])
+    structure = np.array([input_data.shape[1], 10, 20, 10, 2], dtype = np.int32)
+    activations = np.array(['linear', 'sigmoid', 'sigmoid', 'sigmoid', 'linear'])
     start = time.time()
     network = NN.network(structure, activations, eta = .0002, w_init = 0.1, l = 0.001)
     print(f'Time for initialize the net: {time.time()-start} seconds')
@@ -138,6 +136,7 @@ def test_tick_reg():
 
     def f(x, w=1, a = 1, noise = True):
         return a*np.sin(w*x) + noise * np.random.rand(len(x)) * a/3
+
     x = np.linspace(0, 2*np.pi, 200)
     f_eval = f(x)
     inputs = x[::2].reshape((len(x[::2]), 1))
@@ -163,4 +162,4 @@ def test_tick_reg():
 
 
 if __name__ == '__main__':
-    test_tick_reg()
+    test_ML_cup()
