@@ -4,6 +4,7 @@ cimport cython
 cimport numpy as np
 from cython.parallel import prange
 from libc.stdlib cimport malloc, free
+from libc.stdio cimport printf
 from libc.math cimport exp
 from topology cimport neuron_t, layer_t, network_t
 
@@ -33,6 +34,7 @@ cdef network_t train(network_t network, double[:, :] inputs, double [:,:] labels
     network.train_errors = <double*>malloc(epoch*sizeof(double))
     network.val_errors = <double*>malloc(epoch*sizeof(double))
     for i in range(epoch): # for each epoch
+        printf("Epoch %d\r", i)
         for j in range(n_data): # for each data
             feed_input(network, inputs[j])
             forward_prop(network)
@@ -49,6 +51,8 @@ cdef network_t train(network_t network, double[:, :] inputs, double [:,:] labels
                 error += compute_error(network, labels_validation[k])
             network.val_errors[i] = error*inv_n_val
             error = 0
+    printf("Done!       \r")
+    printf("\n")
     return network
 
 @cython.boundscheck(False)  # Deactivate bounds checking
