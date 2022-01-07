@@ -76,21 +76,23 @@ def test_ML_cup():
 
     # Building
     epoch = 1000
-    structure = np.array([input_data.shape[1], 10, 20, 10, 2], dtype = np.int32)
-    activations = np.array(['linear', 'sigmoid', 'sigmoid', 'sigmoid', 'linear'])
+    structure = np.array([input_data.shape[1], 10, 5, 2], dtype = np.int32)
+    activations = np.array(['sigmoid', 'sigmoid', 'sigmoid', 'linear'])
     start = time.time()
-    network = NN.network(structure, activations, eta = .0002, w_init = 0.1, l = 0.001)
+    network = NN.network(structure, activations, eta = .0001, w_init = 0.01, l = 0.0002)
     print(f'Time for initialize the net: {time.time()-start} seconds')
     start = time.time()
     network.train(input_data, labels, epoch)
     print(f'Elapsed time for training: {time.time() - start} seconds')
     errors = network.get_train_error(epoch)
     plt.plot(errors)
+    plt.yscale('log')
     plt.show()
     start = time.time()
     pred = network.predict(val_data)
     print(f'Elapsed time for predict: {time.time() - start} seconds')
-    errors_predict = np.sqrt(np.sum((pred-val_labels)**2))
+    e = np.sum((pred-val_labels)**2, axis = 1)
+    errors_predict = np.sum(np.sqrt(e))/len(pred)
     print('error on predicted data:', errors_predict)
 
 def ML_data_understanding():
