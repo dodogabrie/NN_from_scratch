@@ -14,12 +14,12 @@ help:
 all: compile soft-clean
 
 compile:
-	python setup.py build_ext --inplace
+	python3 setup.py build_ext --inplace
 annotate:
 	cython -3 -a *.pyx
 	@echo "Annotated HTML of the code"
 test:
-	python test.py
+	python3 test.py
 
 # Phony targets for cleanup and similar uses
 .PHONY: clean soft-clean
