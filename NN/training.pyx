@@ -5,7 +5,7 @@ cimport numpy as np
 from cython.parallel import prange
 from libc.stdlib cimport malloc, free
 from libc.stdio cimport printf
-from libc.math cimport exp
+from libc.math cimport exp, sqrt
 from topology cimport neuron_t, layer_t, network_t
 
 ctypedef np.double_t DOUBLE_t
@@ -34,11 +34,10 @@ cdef network_t train(network_t network, double[:, :] inputs, double [:,:] labels
     network.train_errors = <double*>malloc(epoch*sizeof(double))
     network.val_errors = <double*>malloc(epoch*sizeof(double))
     for i in range(epoch): # for each epoch
-        printf("Epoch %d\r", i)
         for j in range(n_data): # for each data
             feed_input(network, inputs[j])
             forward_prop(network)
-            error += compute_error(network, labels[j])
+            error += sqrt(compute_error(network, labels[j]))
             back_prop(network, labels[j])
         # Batch mode: update after I see all the dataset
         update_weights(network)
@@ -48,9 +47,10 @@ cdef network_t train(network_t network, double[:, :] inputs, double [:,:] labels
             for k in range(n_val_data):
                 feed_input(network, validation[k])
                 forward_prop(network)
-                error += compute_error(network, labels_validation[k])
+                error += sqrt(compute_error(network, labels_validation[k]))
             network.val_errors[i] = error*inv_n_val
             error = 0
+        printf("[Epoch %d]  [error %f]\r", i, network.train_errors[i])
     printf("Done!       \r")
     printf("\n")
     return network
