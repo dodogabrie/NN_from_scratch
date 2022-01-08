@@ -25,9 +25,11 @@ test:
 .PHONY: clean soft-clean
 clean:
 	rm -rf *.so *.c *.o *.html build __pycache__ core data
+	rm -rf training/*.so topology/*.so
+	rm -rf training/*.c topology/*.c
 soft-clean:
 	rm -rf *.c *html build __pycache__ 
-
+	rm -rf training/*.c topology/*.c
 
 # Suffix rules
 %.c : %.pyx

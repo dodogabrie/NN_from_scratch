@@ -3,10 +3,10 @@ import numpy as np
 cimport cython
 cimport numpy as np # Make numpy work with cython
 from libc.stdlib cimport malloc, free
-cimport topology
-cimport training
-from topology cimport network_t, create_network, create_neuron
-from training cimport feed_input, forward_prop, back_prop, train, predict_out
+cimport topology.topology
+cimport training.training
+from topology.topology cimport network_t, create_network, create_neuron
+from training.training cimport feed_input, forward_prop, back_prop, train, predict_out
 
 ctypedef np.double_t DOUBLE_t
 ctypedef np.int_t INT_t
