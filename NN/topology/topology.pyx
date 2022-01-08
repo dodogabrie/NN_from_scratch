@@ -4,7 +4,8 @@ cimport cython
 cimport numpy as np
 from libc.stdlib cimport malloc, free
 from libc.math cimport exp
-from topology cimport neuron_t, layer_t, network_t
+cimport topology.topology
+from topology.topology cimport neuron_t, layer_t, network_t
 
 ctypedef np.double_t DOUBLE_t
 

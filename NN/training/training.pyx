@@ -6,7 +6,12 @@ from cython.parallel import prange
 from libc.stdlib cimport malloc, free
 from libc.stdio cimport printf
 from libc.math cimport exp, sqrt
-from topology cimport neuron_t, layer_t, network_t
+
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+cimport topology.topology
+from topology.topology cimport neuron_t, layer_t, network_t
 
 ctypedef np.double_t DOUBLE_t
 

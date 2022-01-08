@@ -4,7 +4,7 @@ sys.path.append('NN/')
 import time
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-import NN
+import cyNeural as cyNN
 
 def test_xor():
     epoch = 1000
@@ -16,7 +16,7 @@ def test_xor():
               [1,1]]
     labels = [0, 1, 1, 0]
     activations = np.array(["sigmoid"]*len(structure), dtype=str)
-    network = NN.network(structure, activations, eta = 2., w_init = 1.)
+    network = cyNN.network(structure, activations, eta = 2., w_init = 1.)
     network.print_network()
     start = time.time()
     network.train(inputs, labels, epoch)
@@ -49,7 +49,7 @@ def MONK_test():
     epoch = 1000
     structure = np.array([train.shape[1], 3, 1], dtype = np.int32)
     activations = np.array(['sigmoid', 'sigmoid', 'sigmoid'])
-    network = NN.network(structure, activations, eta = .01, w_init = .1)
+    network = cyNN.network(structure, activations, eta = .01, w_init = .1)
     start = time.time()
     network.train(train, train_labels, epoch)
     print(f'Elapsed time for training: {time.time() - start} seconds')
@@ -79,7 +79,7 @@ def test_ML_cup():
     structure = np.array([input_data.shape[1], 10, 5, 2], dtype = np.int32)
     activations = np.array(['sigmoid', 'sigmoid', 'sigmoid', 'linear'])
     start = time.time()
-    network = NN.network(structure, activations, eta = .0001, w_init = 0.01, l = 0.0002)
+    network = cyNN.network(structure, activations, eta = .0001, w_init = 0.01, l = 0.0002)
     print(f'Time for initialize the net: {time.time()-start} seconds')
     start = time.time()
     network.train(input_data, labels, epoch)
@@ -122,7 +122,7 @@ def ML_validation_check():
     activations = np.array(['sigmoid', 'sigmoid', 'linear'])
     val_err = []
     err = []
-    network = NN.network(structure, activations, eta = .0001, w_init = .1)
+    network = cyNN.network(structure, activations, eta = .0001, w_init = .1)
     for i in range(epoch):
         network.train(input_data, labels, epoch = 1)
         err.append(network.get_train_error(1))
@@ -147,7 +147,7 @@ def test_tick_reg():
     val_label = f(val, noise = False)
     structure = np.array([1, 20, 2, 1], dtype = np.int32)
     activations = np.array(["sigmoid", 'sigmoid', 'sigmoid', 'linear'], dtype=str)
-    network = NN.network(structure, activations, eta = .004, w_init = 1., l = 0.0004)
+    network = cyNN.network(structure, activations, eta = .004, w_init = 1., l = 0.0004)
     network.print_network()
     start = time.time()
     network.train(inputs, labels, epoch, val, val_label, 1)
