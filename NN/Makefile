@@ -11,7 +11,7 @@ help:
 	@echo "clean-soft -> Remove *.so *.c *.o build"
 	@echo "test       -> Run the test.py"
 
-all: compile soft-clean
+all: compile #soft-clean
 
 compile:
 	python3 setup.py build_ext --inplace
@@ -24,12 +24,11 @@ test:
 # Phony targets for cleanup and similar uses
 .PHONY: clean soft-clean
 clean:
-	rm -rf *.so *.c *.o *.html build __pycache__ core data
+	rm -rf *.so *.c *.cpp *.o *.html build __pycache__ core data
 	rm -rf training/*.so topology/*.so
-	rm -rf training/*.c topology/*.c
+	rm -rf training/*.c training/*.cpp topology/*.c topology/*.cpp
 soft-clean:
-	rm -rf *.c *html build __pycache__ 
-	rm -rf training/*.c topology/*.c
+	rm -rf *html build __pycache__ 
 
 # Suffix rules
 %.c : %.pyx

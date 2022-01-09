@@ -1,9 +1,15 @@
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+import numpy as np
+cimport cython
+cimport numpy as np
 cimport topology.topology
-
 from topology.topology cimport neuron_t, layer_t, network_t
+from cython.parallel import prange
+from libc.stdlib cimport malloc, free
+from libc.stdio cimport printf
+from libc.math cimport exp, sqrt
+
+ctypedef np.double_t DOUBLE_t
+
 
 cdef void feed_input(network_t, double[:])
 cdef void forward_prop(network_t)

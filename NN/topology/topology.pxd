@@ -1,6 +1,15 @@
 import numpy as np
 cimport numpy as np
+cimport activations.activations
+from activations.activations cimport sigmoid, sigmoid_der, lin, lin_der
+from libc.stdlib cimport malloc, free
+from libc.math cimport exp
+cimport topology.topology
+from topology.topology cimport neuron_t, layer_t, network_t
+
 ctypedef double (*f_type)(double)
+ctypedef np.double_t DOUBLE_t
+
 
 cdef struct neuron_t:
     double actv

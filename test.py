@@ -76,10 +76,10 @@ def test_ML_cup():
 
     # Building
     epoch = 1000
-    structure = np.array([input_data.shape[1], 10, 5, 2], dtype = np.int32)
+    structure = np.array([input_data.shape[1], 10, 10, 2], dtype = np.int32)
     activations = np.array(['sigmoid', 'sigmoid', 'sigmoid', 'linear'])
     start = time.time()
-    network = cyNN.network(structure, activations, eta = .0001, w_init = 0.01, l = 0.0002)
+    network = cyNN.network(structure, activations, eta = .00005, w_init = 0.1, l = 0.0001)
     print(f'Time for initialize the net: {time.time()-start} seconds')
     start = time.time()
     network.train(input_data, labels, epoch)

@@ -1,21 +1,6 @@
 # distutils: language=c++
 import numpy as np
-cimport cython
 cimport numpy as np
-from libc.stdlib cimport malloc, free
-from libc.math cimport exp
-cimport topology.topology
-from topology.topology cimport neuron_t, layer_t, network_t
-
-ctypedef np.double_t DOUBLE_t
-
-# Linear activation function
-cdef double lin(double x): return x
-cdef double lin_der(double x): return 1.
-
-# Sigmoid activation function
-cdef double sigmoid(double x): return 1/(1 + exp(-x))
-cdef double sigmoid_der(double x): return exp(-x)/((1 + exp(-x))*(1 + exp(-x)))
 
 cdef neuron_t create_neuron(int num_out_weights, double w_init):
     cdef neuron_t neu # define the neuron
@@ -76,3 +61,5 @@ cdef network_t create_network(int[:] structure, np.ndarray activations, double e
         net.lay[num_of_layers-1].neu[i] = create_neuron(1, w_init)
     return net
 
+#cdef network_t add_layer(network_t net, f_type activation_f, f_type derivative_f):
+#    return net
