@@ -70,7 +70,7 @@ cdef network_t create_network(int num_inputs, int num_outputs,
     if hidden_activation == 'linear':
         net.hidden_actv_f = lin
         net.hidden_actv_df = lin_der
-    elif out_activation == 'sigmoid':
+    elif hidden_activation == 'sigmoid':
         net.hidden_actv_f = sigmoid
         net.hidden_actv_df = sigmoid_der
     else: print('hidden activation function not found')

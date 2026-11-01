@@ -7,7 +7,8 @@ cdef void forward_prop(network_t)
 cdef void update_weights(network_t)
 cdef double compute_error(network_t, double[:])
 cdef void back_prop(network_t, double [:])
-cdef network_t train(network_t, double[:, :], double [:,:], int, int, double, double, double[:, :],
-                     double [:,:], int, int)
+cdef network_t train(network_t, double[:, :], double [:,:], int, int, double[:, :],
+                     double [:,:], int)
+cdef void reserve_inputs(network_t*, int)
 cdef double[:,:] predict_out(network_t, double[:,:])
 #cdef void add_neuron(network_t*)
